@@ -5,6 +5,7 @@ import "./Roles.sol";
 
 // Define a contract 'ConsumerRole' to manage this role - add, remove, check
 contract ConsumerRole {
+  using Roles for Roles.Role;
 
   // Define 2 events, one for Adding, and other for Removing
   event ConsumerAdded(address indexed account);
@@ -36,7 +37,7 @@ contract ConsumerRole {
 
   // Define a function 'renounceConsumer' to renounce this role
   function renounceConsumer() public {
-    _removeConsumer(account);
+    _removeConsumer(msg.sender);
   }
 
   // Define an internal function '_addConsumer' to add this role, called by 'addConsumer'

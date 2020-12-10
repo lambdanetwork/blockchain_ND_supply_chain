@@ -2,11 +2,11 @@ pragma solidity ^0.4.24;
 // Define a contract 'Supplychain'
 
 // Importing the necessary sol files
-import "../core/Ownable.sol";
-import "../access/roles/ConsumerRole.sol";
-import "../access/roles/DistributorRole.sol";
-import "../access/roles/FarmerRole.sol";
-import "../access/roles/RetailerRole.sol";
+import "../coffeecore/Ownable.sol";
+import "../coffeeaccesscontrol/ConsumerRole.sol";
+import "../coffeeaccesscontrol/DistributorRole.sol";
+import "../coffeeaccesscontrol/RetailerRole.sol";
+import "../coffeeaccesscontrol/FarmerRole.sol";
 
 // Define a contract 'Supplychain'
 contract SupplyChain is
@@ -17,7 +17,7 @@ contract SupplyChain is
     RetailerRole
 {
   // Define 'owner'
-  address owner;
+  address _owner;
 
   // Define a variable called 'upc' for Universal Product Code (UPC)
   uint  upc;
@@ -77,7 +77,7 @@ contract SupplyChain is
 
   // Define a modifer that checks to see if msg.sender == owner of the contract
   modifier onlyOwner() {
-    require(msg.sender == owner);
+    require(msg.sender == _owner);
     _;
   }
 
@@ -103,7 +103,7 @@ contract SupplyChain is
 
   // Define a modifier that checks if an item.state of a upc is Harvested
   modifier harvested(uint _upc) {
-    require(items[_upc].itemState == State.Harvested, "not Harvested"));
+    require(items[_upc].itemState == State.Harvested, "not Harvested");
     _;
   }
 
@@ -153,15 +153,15 @@ contract SupplyChain is
   // and set 'sku' to 1
   // and set 'upc' to 1
   constructor() public payable {
-    owner = msg.sender;
+    _owner = msg.sender;
     sku = 1;
     upc = 1;
   }
 
   // Define a function 'kill' if required
   function kill() public {
-    if (msg.sender == owner) {
-      selfdestruct(owner);
+    if (msg.sender == _owner) {
+      selfdestruct(_owner);
     }
   }
 
@@ -242,7 +242,7 @@ contract SupplyChain is
     
     // Transfer money to farmer
     uint256 price = items[_upc].productPrice;
-    payable(items[_upc].originFarmerID).transfer(price);
+    (items[_upc].originFarmerID).transfer(price);
     
     // Emit the appropriate event
     emit Sold(_upc);
@@ -345,8 +345,8 @@ contract SupplyChain is
       itemSKU			  = items[_upc].sku;
 			itemUPC			  = items[_upc].upc;
 			productID		  = items[_upc].productID;
-      productNotes  = items[_upc].productNotes
-      productPrice  = items[_upc].productPrice
+      productNotes  = items[_upc].productNotes;
+      productPrice  = items[_upc].productPrice;
 			itemState		  = uint256(items[_upc].itemState);
     	distributorID	= items[_upc].distributorID;
     	retailerID		= items[_upc].retailerID;
