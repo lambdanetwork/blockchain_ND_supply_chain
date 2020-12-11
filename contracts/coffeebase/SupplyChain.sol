@@ -89,7 +89,7 @@ contract SupplyChain is
 
   // Define a modifier that checks if the paid amount is sufficient to cover the price
   modifier paidEnough(uint _price) { 
-    require(msg.value >= _price); 
+    require(msg.value >= _price, "Amount is not sufficient"); 
     _;
   }
   
@@ -173,6 +173,9 @@ contract SupplyChain is
     string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public 
   {
     // Add the new item as part of Harvest
+    items[_upc].upc = _upc;
+    items[_upc].sku = sku;
+    items[_upc].ownerID = _owner;
     items[_upc].originFarmerID = _originFarmerID;
     items[_upc].originFarmName = _originFarmName;
     items[_upc].originFarmInformation = _originFarmInformation;
@@ -219,6 +222,7 @@ contract SupplyChain is
   {
     // Update the appropriate fields
     items[_upc].itemState = State.ForSale;
+    items[_upc].productPrice = _price;
 
     // Emit the appropriate event
     emit ForSale(_upc);
@@ -304,7 +308,7 @@ contract SupplyChain is
   string  originFarmLongitude
   ) 
   {
-  // Assign values to the 8 parameters
+  // Assign values to the 8 parameters)
       itemSKU			= items[_upc].sku;
 			itemUPC			= items[_upc].upc;
 			ownerID		  = items[_upc].ownerID;
