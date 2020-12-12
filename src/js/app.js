@@ -111,9 +111,7 @@ App = {
             App.fetchItemBufferOne();
             App.fetchItemBufferTwo();
             App.fetchEvents();
-
         });
-
         return App.bindEvents();
     },
 
@@ -166,7 +164,7 @@ App = {
     harvestItem: function(event) {
         event.preventDefault();
         var processId = parseInt($(event.target).data('id'));
-
+        console.log(processId)
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.harvestItem(
                 App.upc, 
@@ -295,6 +293,10 @@ App = {
         App.contracts.SupplyChain.deployed().then(function(instance) {
           return instance.fetchItemBufferOne(App.upc);
         }).then(function(result) {
+            // convert object to number
+            result[0] = result[0].toNumber();
+            result[1] = result[1].toNumber();
+
           $("#ftc-item").text(result);
           console.log('fetchItemBufferOne', result);
         }).catch(function(err) {
@@ -309,6 +311,12 @@ App = {
         App.contracts.SupplyChain.deployed().then(function(instance) {
           return instance.fetchItemBufferTwo.call(App.upc);
         }).then(function(result) {
+            result[0] = result[0].toNumber();
+            result[1] = result[1].toNumber();
+            result[2] = result[2].toNumber();
+            result[4] = result[4].toNumber();
+            result[5] = result[5].toNumber();
+
           $("#ftc-item").text(result);
           console.log('fetchItemBufferTwo', result);
         }).catch(function(err) {
