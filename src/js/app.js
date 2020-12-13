@@ -111,8 +111,56 @@ App = {
             App.fetchItemBufferOne();
             App.fetchItemBufferTwo();
             App.fetchEvents();
+
+            // give role to current metamask ID
+            App.addFarmer();
+            App.addDistributor();
+            App.addRetailer();
+            App.addConsumer();
+
         });
         return App.bindEvents();
+    },
+
+    addFarmer(){
+        App.contracts.SupplyChain.deployed().then(function(instance) {
+            return instance.addFarmer(App.metamaskAccountID);
+        }).then(function(result) {
+            $("#ftc-item").text(result);
+            console.log('processItem',result);
+        }).catch(function(err) {
+            console.log(err.message);
+        });
+    },
+    addDistributor(){
+        App.contracts.SupplyChain.deployed().then(function(instance) {
+            return instance.addDistributor(App.metamaskAccountID);
+        }).then(function(result) {
+            $("#ftc-item").text(result);
+            console.log('processItem',result);
+        }).catch(function(err) {
+            console.log(err.message);
+        });
+    },
+    addRetailer(){
+        App.contracts.SupplyChain.deployed().then(function(instance) {
+            return instance.addRetailer(App.metamaskAccountID);
+        }).then(function(result) {
+            $("#ftc-item").text(result);
+            console.log('processItem',result);
+        }).catch(function(err) {
+            console.log(err.message);
+        });
+    },
+    addConsumer(){
+        App.contracts.SupplyChain.deployed().then(function(instance) {
+            return instance.addConsumer(App.metamaskAccountID);
+        }).then(function(result) {
+            $("#ftc-item").text(result);
+            console.log('processItem',result);
+        }).catch(function(err) {
+            console.log(err.message);
+        });
     },
 
     bindEvents: function() {
@@ -216,7 +264,7 @@ App = {
         var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            const productPrice = web3.utils.toWei("1", "ether");
+            const productPrice = web3.toWei("1", "ether");
             console.log('productPrice',productPrice);
             return instance.sellItem(App.upc, App.productPrice, {from: App.metamaskAccountID});
         }).then(function(result) {
@@ -232,7 +280,7 @@ App = {
         var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            const walletValue = web3.utils.toWei("3", "ether");
+            const walletValue = web3.toWei("3", "ether");
             return instance.buyItem(App.upc, {from: App.metamaskAccountID, value: walletValue});
         }).then(function(result) {
             $("#ftc-item").text(result);
