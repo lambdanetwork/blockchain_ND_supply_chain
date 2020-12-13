@@ -32,16 +32,17 @@ module.exports = {
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
     ropsten: {
+      port: 8545,
       provider: () => new HDWallet(mnemonic, infuraKey),
       network_id: 3,       // Ropsten's id,
-      gas: 4000000,        // Ropsten has a lower block limit than mainnet
+      gas: 1000000,        // Ropsten has a lower block limit than mainnet
     },
   },
   
 
   compilers: {
     solc: {
-      version: "0.5.1", 
+      version: "0.4.26", 
     }
   }
 };
