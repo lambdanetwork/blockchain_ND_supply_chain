@@ -170,7 +170,8 @@ contract SupplyChain is
     uint _upc, 
     address _originFarmerID, 
     string _originFarmName, 
-    string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public 
+    string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) 
+    public onlyFarmer
   {
     // Add the new item as part of Harvest
     items[_upc].upc = _upc;
@@ -194,6 +195,7 @@ contract SupplyChain is
   function processItem(uint _upc) public 
     harvested(_upc) // Call modifier to check if upc has passed previous supply chain stage
     onlyFarmer // Call modifier to verify caller of this function
+    verifyCaller(items[_upc].ownerID)
   {
     // Update the appropriate fields
     items[_upc].itemState = State.Processed;
@@ -204,8 +206,9 @@ contract SupplyChain is
 
   // Define a function 'packItem' that allows a farmer to mark an item 'Packed'
   function packItem(uint _upc) public 
-     processed(_upc) // Call modifier to check if upc has passed previous supply chain stage
-     onlyFarmer // Call modifier to verify caller of this function
+      processed(_upc) // Call modifier to check if upc has passed previous supply chain stage
+      onlyFarmer // Call modifier to verify caller of this function
+      verifyCaller(items[_upc].ownerID)
   {
      // Update the appropriate fields
     items[_upc].itemState = State.Packed;
@@ -219,6 +222,7 @@ contract SupplyChain is
   function sellItem(uint _upc, uint _price) public 
     packed(_upc) // Call modifier to check if upc has passed previous supply chain stage
     onlyFarmer // Call modifier to verify caller of this function
+    verifyCaller(items[_upc].ownerID)
   {
     // Update the appropriate fields
     items[_upc].itemState = State.ForSale;
@@ -257,6 +261,7 @@ contract SupplyChain is
   function shipItem(uint _upc) public 
     sold(_upc)// Call modifier to check if upc has passed previous supply chain stage
     onlyDistributor// Call modifier to verify caller of this function
+    verifyCaller(items[_upc].ownerID)
     {
     // Update the appropriate fields
     items[_upc].itemState = State.Shipped;
