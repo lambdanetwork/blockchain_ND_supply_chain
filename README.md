@@ -1,6 +1,14 @@
 
 # Supply Chain
 
+## Libraries and Framework  
+The project is built with:
+```
+    Truffle v4.1.17 (core: 4.1.17)
+    Solidity v0.4.26 (solc-js)
+    Node v11.15.0
+```
+
 ## Contract on ropsten
                         
     Transaction Hash: 0x29329c265b499f2f1b87d2f765159fd2b19d91a21ec3a4736c9e33826db9bba1
@@ -31,3 +39,23 @@
     truffle migrate --network ropsten
     truffle test --network ropsten
     ```
+
+## Diagrams
+
+### Activity Diagram
+![Activity Diagram](screenshots/activity_diagram.png)
+<br />
+
+
+### Sequence Diagram
+![Sequence Diagram](screenshots/sequence_diagram.png)
+<br />
+
+
+### State Diagram
+![State Diagram](screenshots/state_diagram.png)
+<br />
+
+### Class Diagram
+![Class Diagram](screenshots/class_diagram.png)
+<br />
